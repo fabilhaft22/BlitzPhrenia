@@ -65,25 +65,45 @@ for (const file of eventFiles) {
 //Reload Slash commands
 
 const commands = [];
-// Grab all the command folders from the commands directory you created earlier
+
 for (const folder of commandFolders) {
-	// Grab all the command files from the commands directory you created earlier
 	const commandsPath = path.join(foldersPath, folder);
 	const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
-	// Grab the SlashCommandBuilder#toJSON() output of each command's data for deployment
+
 	for (const file of commandFiles) {
 		const filePath = path.join(commandsPath, file);
 		const command = require(filePath);
-		if ('data' in command && 'execute' in command) {
-			const commandJSON = command.data.toJSON();
-			commandJSON.dmPermission = false; // Disable DM usage by default
-			commands.push(commandJSON);
 
+		// Skip files that don't have .data.toJSON() (e.g., button handlers)
+		if ('data' in command && 'execute' in command && typeof command.data.toJSON === 'function') {
+			const commandJSON = command.data.toJSON();
+			commandJSON.dmPermission = false;
+			commands.push(commandJSON);
 		} else {
-			console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+			console.log(`[WARNING] Skipping file at ${filePath}: Missing "data.toJSON()" or "execute".`);
 		}
 	}
 }
+
+client.buttons = new Map();
+
+// Absolute path to your buttons folder
+const buttonsPath = path.join(__dirname, 'buttons');
+const buttonFiles = fs.readdirSync(buttonsPath).filter(file => file.endsWith('.js'));
+
+for (const file of buttonFiles) {
+	const filePath = path.join(buttonsPath, file);
+	const button = require(filePath);
+	
+	if (button.data?.customId && typeof button.execute === 'function') {
+		client.buttons.set(button.data.customId, button);
+		console.log(`✅ Loaded button: ${button.data.customId}`);
+	} else {
+		console.warn(`[WARNING] The button file "${file}" is missing a valid "data.customId" or "execute".`);
+	}
+}
+
+
 
 // Construct and prepare an instance of the REST module
 const rest = new REST().setToken(token);

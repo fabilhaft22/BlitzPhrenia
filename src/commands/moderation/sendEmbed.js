@@ -11,6 +11,7 @@ module.exports = {
         .addStringOption(option => option.setName('color').setDescription("the embed color").setAutocomplete(true))
         .addStringOption(option => option.setName('description').setDescription("The embed description"))
         .addBooleanOption(option => option.setName('timestamp').setDescription("Set a timestamp"))
+        .addBooleanOption(option => option.setName('ephemeral').setDescription("Set the embed to be ephemeral"))
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
     async autocomplete(interaction){
         const focussedValue = interaction.options.getFocused();
@@ -26,7 +27,20 @@ module.exports = {
     },
     
     async execute(interaction) {
-        interaction.reply({embeds: [makeEmbed(
+        const ephemeral = interaction.options.getBoolean('ephemeral') || false;
+
+        if(ephemeral){
+            interaction.reply({content: "embed sent", ephemeral: true})
+            return interaction.channel.send({embeds: [makeEmbed(
+                interaction.options.getString('title'),
+                interaction.options.getString('fields'),
+                Colors[interaction.options.getString('color')],
+                interaction.options.getString('description'),
+                interaction.options.getBoolean('timestamp')
+            )]})
+        }
+
+        return interaction.reply({embeds: [makeEmbed(
             interaction.options.getString('title'),
             interaction.options.getString('fields'),
             Colors[interaction.options.getString('color')],
