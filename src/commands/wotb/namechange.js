@@ -1,9 +1,9 @@
 const { SlashCommandBuilder } = require("discord.js");
-const fs = require("fs");
+const fetch = require("node-fetch"); // Make sure this is installed
+const { PlayerNicknames } = require("../../schemas/playerNicknames"); // Adjust path if needed
 
 const API_URL = "https://api.wotblitz.eu/wotb/account/info/";
 const APPLICATION_ID = "2c0cd9675ab32362391523973b878cab";
-const DB_PATH = "src/data/nicknames.json";
 
 async function fetchPlayerInfo(playerId) {
     try {
@@ -25,37 +25,40 @@ module.exports = {
     async execute(interaction) {
         await interaction.deferReply();
 
-        const database = JSON.parse(fs.readFileSync(DB_PATH, "utf-8"));
-        const players = database.players;
+        const players = await PlayerNicknames.find();
+        if (!players.length) {
+            return interaction.editReply("❌ No players are currently registered.");
+        }
 
         const updatedPlayers = [];
         const batchSize = 5;
         let statusLines = [];
 
         for (let i = 0; i < players.length; i++) {
-            const { playerId, ign } = players[i];
+            const player = players[i];
+            const { playerId, currentIgn } = player;
 
-            statusLines.push(`**${i + 1}:** Checking on **${ign}**`);
+            statusLines.push(`**${i + 1}:** Checking on **${currentIgn}**`);
 
             const info = await fetchPlayerInfo(playerId);
             if (!info || !info.nickname) continue;
 
             const currentName = info.nickname;
 
-            if (currentName !== ign) {
-                updatedPlayers.push({ playerId, oldName: ign, newName: currentName });
-                players[i].previousNicknames.push(ign);
-                players[i].ign = currentName;
+            if (currentName !== currentIgn) {
+                updatedPlayers.push({ playerId, oldName: currentIgn, newName: currentName });
+
+                // Update in database
+                player.previousNicknames.push(currentIgn);
+                player.currentIgn = currentName;
+                await player.save();
             }
 
-            // Update the message every batch or at the end
             if ((i + 1) % batchSize === 0 || i === players.length - 1) {
                 await interaction.editReply(statusLines.join("\n"));
-                statusLines = []; // reset for next batch
+                statusLines = [];
             }
         }
-
-        fs.writeFileSync(DB_PATH, JSON.stringify(database, null, 4));
 
         if (updatedPlayers.length === 0) {
             return interaction.editReply("✅ No one has changed their nickname.");

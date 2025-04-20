@@ -192,7 +192,7 @@ $RECYCLE.BIN/
 package-lock.json
 package.json
 node_modules
-src/data/nicknames.json
+importData.js
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,visualstudiocode,node
 
