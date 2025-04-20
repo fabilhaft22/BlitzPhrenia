@@ -5,8 +5,19 @@ module.exports = {
     async execute(member) {
         const logChannel = member.guild.channels.cache.get(process.env.memberLogChannel);
         const guild = member.guild;
+        const notificationChannel = member.guild.channels.cache.get(process.env.welcomeChannel);  // Channel for notifying
 
-        if (!logChannel) { console.log("failed to find log channel in guildMemberRemove.js(line 6)"); return }
+        if (!logChannel) { 
+            console.log("failed to find log channel in guildMemberRemove.js(line 6)"); 
+            return; 
+        }
+
+        // Send a notification to a specific channel
+        if (notificationChannel) {
+            await notificationChannel.send(`${member.user.username}/<@${member.id}> just left the server.`);
+        } else {
+            console.log("Failed to find notification channel");
+        }
 
         const roles = member.roles.cache
             .filter(role => role.id !== member.guild.id) // Exclude @everyone role
@@ -38,16 +49,16 @@ module.exports = {
                     .addFields(
                         { name: "The banned user", value: `<@${member.id}>` },
                         { name: "Reason", value: `${reason || "No reason provided."}` },
-                        { name: "joined at", value: `<t:${Math.floor(member.joinedAt / 1000)}:R>` },
+                        { name: "joined", value: formatJoinDate(member.joinedAt) },
                         { name: "roles:", value: `${roles}` }
                     )
                     .setColor("Red")
                     .setFooter({
                         text: `ID: ${member.user.id}`
                     })
-                    .setTimestamp(Date.now())
+                    .setTimestamp(Date.now());
 
-                return logChannel.send({ embeds: [embed] })
+                return logChannel.send({ embeds: [embed] });
             }
         }
 
@@ -72,16 +83,16 @@ module.exports = {
                     .addFields(
                         { name: "The kicked user", value: `<@${member.id}>` },
                         { name: "Reason", value: `${reason || "No reason provided."}` },
-                        { name: "joined at", value: `<t:${Math.floor(member.joinedAt / 1000)}:R>` },
+                        { name: "joined", value: formatJoinDate(member.joinedAt) },
                         { name: "roles:", value: `${roles}` }
                     )
                     .setColor("Red")
                     .setFooter({
                         text: `ID: ${member.user.id}`
                     })
-                    .setTimestamp(Date.now())
+                    .setTimestamp(Date.now());
 
-                return logChannel.send({ embeds: [embed] })
+                return logChannel.send({ embeds: [embed] });
             }
         }
 
@@ -94,15 +105,40 @@ module.exports = {
             })
             .addFields(
                 { name: "User", value: `<@${member.id}>` },
-                { name: "joined at", value: `<t:${Math.floor(member.joinedAt / 1000)}:R>` },
+                { name: "joined", value: formatJoinDate(member.joinedAt) },
                 { name: "roles:", value: `${roles}` }
             )
             .setColor("Red")
             .setFooter({
                 text: `ID: ${member.user.id}`
             })
-            .setTimestamp(Date.now())
+            .setTimestamp(Date.now());
 
-        return logChannel.send({ embeds: [embed] })
+        return logChannel.send({ embeds: [embed] });
     }
 };
+
+// Helper function to format the "joined" field with singular/plural logic and "ago"
+function formatJoinDate(joinedAt) {
+    const now = Date.now();
+    const diffInMs = now - joinedAt;
+
+    // If the difference is less than a minute, return "Just now"
+    if (diffInMs < 1000 * 60) {
+        return "Just now";
+    }
+
+    // Calculate time difference in hours, minutes, and days
+    const days = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diffInMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diffInMs % (1000 * 60 * 60)) / (1000 * 60));
+
+    let formattedTime = "";
+
+    if (days > 0) formattedTime += `${days} day${days > 1 ? 's' : ''} `;
+    if (hours > 0) formattedTime += `${hours} hour${hours > 1 ? 's' : ''} `;
+    if (minutes > 0) formattedTime += `${minutes} minute${minutes > 1 ? 's' : ''}`;
+
+    return formattedTime.trim() + " ago";
+}
+

@@ -5,6 +5,8 @@ const path = require('node:path');
 const { Client, Collection, GatewayIntentBits, Partials } = require('discord.js');
 const { REST, Routes } = require('discord.js');
 
+process.on('unhandledRejection', console.error);
+
 const token = process.env.TOKEN;
 const clientId = process.env.CLIENTID;
 
@@ -26,6 +28,10 @@ const client = new Client({
 		Partials.User
 	]
 });
+
+console.log("Trying to log in with token:", token ? "[OK]" : "[MISSING]");
+console.log("Client ID:", clientId || "[MISSING]");
+
 
 //Push slash commands to the bot and handle their execution
 client.commands = new Collection();
@@ -120,6 +126,7 @@ const rest = new REST().setToken(token);
 		);
 
 		console.log(`Successfully reloaded ${data.length} application (/) commands.`);
+		
 	} catch (error) {
 		// And of course, make sure you catch and log any errors!
 		console.error(error);
