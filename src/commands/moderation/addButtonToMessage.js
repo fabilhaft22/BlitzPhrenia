@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
+const { SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle, PermissionFlagsBits } = require('discord.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -15,7 +15,8 @@ module.exports = {
         .addStringOption(option =>
             option.setName('buttonid')
                 .setDescription('The custom ID for the button interaction')
-                .setRequired(true)),
+                .setRequired(true))
+        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator), // Only allow users with Administrator permission to use this command
 
     async execute(interaction) {
         const messageId = interaction.options.getString('messageid');
