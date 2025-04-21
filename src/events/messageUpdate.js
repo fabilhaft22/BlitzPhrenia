@@ -50,6 +50,10 @@ module.exports = {
 
         embed.addFields(fields.slice(0, 25));
 
+        if(oldMessage.content === newMessage.content && oldMessage.attachments.length === newMessage.attachments.length) {
+            return console.log("Discord API bug: MessageUpdate event triggered without changes. Probably because of a gif.");
+        }	
+
         logChannel.send({ embeds: [embed] }).catch(console.error);
     }
 };
