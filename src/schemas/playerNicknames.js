@@ -1,8 +1,10 @@
 require('dotenv').config()
 const mongoose = require('mongoose');
 
-mongoose.connect(process.env.MONGODB_URI) //you need to put your own mongoDB connection string in here
-    .then(() => console.log("Connected to MongoDB"))
+const URI = process.env.MONGODB_URI;
+
+mongoose.connect(URI) //you need to put your own mongoDB connection string in here
+    .then(() => console.log("Connected to MongoDB PlayerNicknames collection"))
     .catch(err => console.error("Error connecting to MongoDB:", err));
 
 const playerSchema = new mongoose.Schema({
@@ -14,6 +16,8 @@ const playerSchema = new mongoose.Schema({
 })
 
 
-const PlayerNicknames = mongoose.model('User', playerSchema);
+const PlayerNicknames = mongoose.model('nicknames', playerSchema);
 
-module.exports = { PlayerNicknames };
+module.exports = { 
+    PlayerNicknames 
+};

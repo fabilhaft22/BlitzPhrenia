@@ -193,6 +193,9 @@ package-lock.json
 package.json
 node_modules
 importData.js
+*.zip
+src/data/Players.json
+
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,visualstudiocode,node
 

@@ -2,11 +2,9 @@ const { SlashCommandBuilder } = require("discord.js");
 const fetch = require("node-fetch"); // ensure installed
 const { PlayerNicknames } = require("../../schemas/playerNicknames"); // Adjust path if needed
 
-const APPLICATION_ID = "2c0cd9675ab32362391523973b878cab";
-
 async function fetchByIgn(pIgn) {
     try {
-        const response = await fetch(`https://api.wotblitz.eu/wotb/account/list/?application_id=${APPLICATION_ID}&search=${pIgn}`);
+        const response = await fetch(`https://api.wotblitz.eu/wotb/account/list/?application_id=2c0cd9675ab32362391523973b878cab&search=${pIgn}`);
         if (!response.ok) console.error("❌ API response not ok (IGN search)");
         return await response.json();
     } catch (error) {
@@ -66,7 +64,6 @@ module.exports = {
         const previousNicknames = prevNickOpt ? prevNickOpt.split(",").map(n => n.trim()).filter(n => n) : [];
 
         let playerId;
-        let playerData;
 
         if (subcommand === "ign") {
             const ign = interaction.options.getString('ign');
