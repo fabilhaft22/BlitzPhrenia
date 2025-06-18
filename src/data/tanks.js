@@ -1594,6 +1594,11 @@ const tanks = Object.freeze({
         "nation": "usa",
         "tier": 8
     },
+    "11313": {
+        "name": "Type 58 (tutorial)",
+        "nation": "china",
+        "tier": 7
+    },
     "11377": {
         "name": "Basilisk",
         "nation": "other",
@@ -1847,6 +1852,11 @@ const tanks = Object.freeze({
     "14113": {
         "name": "M48 Patton",
         "nation": "usa",
+        "tier": 10
+    },
+    "14129": {
+        "name": "BZT-70",
+        "nation": "china",
         "tier": 10
     },
     "14145": {
@@ -2824,10 +2834,20 @@ const tanks = Object.freeze({
         "nation": "ussr",
         "tier": 8
     },
+    "26385": {
+        "name": "Tiger I (tutorial)",
+        "nation": "germany",
+        "tier": 7
+    },
     "26401": {
         "name": "Enforcer",
         "nation": "usa",
         "tier": 6
+    },
+    "26625": {
+        "name": "T-34-85 (tutorial)",
+        "nation": "ussr",
+        "tier": 7
     },
     "26641": {
         "name": "Kpz 07 RH",
@@ -2933,6 +2953,11 @@ const tanks = Object.freeze({
         "name": "Waffen F1.0",
         "nation": "germany",
         "tier": 10
+    },
+    "28961": {
+        "name": "Sherman Easy 8",
+        "nation": "usa",
+        "tier": 7
     },
     "29201": {
         "name": "Tiger-Maus",
