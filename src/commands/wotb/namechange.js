@@ -1,21 +1,13 @@
 const { SlashCommandBuilder } = require("discord.js");
 const fetch = require("node-fetch"); // Make sure this is installed
 const { PlayerNicknames } = require("../../schemas/playerNicknames"); // Adjust path if needed
+const { fetchPlayerInfo } = require("../../functions/wotbUtils");
+
 
 const API_URL = "https://api.wotblitz.eu/wotb/account/info/";
 const APPLICATION_ID = "2c0cd9675ab32362391523973b878cab";
 
-async function fetchPlayerInfo(playerId) {
-    try {
-        const res = await fetch(`${API_URL}?application_id=${APPLICATION_ID}&account_id=${playerId}`);
-        if (!res.ok) throw new Error(`API returned status ${res.status}`);
-        const data = await res.json();
-        return data?.data?.[playerId] || null;
-    } catch (err) {
-        console.error(`❌ Failed to fetch data for player ${playerId}:`, err);
-        return null;
-    }
-}
+
 
 module.exports = {
     data: new SlashCommandBuilder()

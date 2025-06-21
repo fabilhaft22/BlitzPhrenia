@@ -46,6 +46,7 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
+lego.js
 
 # Snowpack dependency directory (https://snowpack.dev/)
 web_modules/
@@ -195,6 +196,7 @@ node_modules
 importData.js
 *.zip
 src/data/Players.json
+
 
 
 # End of https://www.toptal.com/developers/gitignore/api/windows,visualstudiocode,node

@@ -1,37 +1,7 @@
 const { SlashCommandBuilder } = require("discord.js");
 const fetch = require("node-fetch"); // ensure installed
 const { PlayerNicknames } = require("../../schemas/playerNicknames"); // Adjust path if needed
-
-async function fetchByIgn(pIgn) {
-    try {
-        const response = await fetch(`https://api.wotblitz.eu/wotb/account/list/?application_id=2c0cd9675ab32362391523973b878cab&search=${pIgn}`);
-        if (!response.ok) console.error("❌ API response not ok (IGN search)");
-        return await response.json();
-    } catch (error) {
-        console.error("❌ Error fetching IGN:", error);
-        return null;
-    }
-}
-
-async function fetchPlayerIdByIgn(pIgn) {
-    const response = await fetchByIgn(pIgn);
-    try {
-        return response?.data?.[0]?.account_id || null;
-    } catch {
-        return null;
-    }
-}
-
-async function fetchPlayerById(pPlayerId) {
-    try {
-        const response = await fetch(`https://api.wotblitz.eu/wotb/account/info/?application_id=${APPLICATION_ID}&account_id=${pPlayerId}`);
-        if (!response.ok) console.error("❌ API response not ok (Player ID)");
-        return await response.json();
-    } catch (error) {
-        console.error("❌ Error fetching by Player ID:", error);
-        return null;
-    }
-}
+const { fetchByIgn, fetchPlayerIdByIgn, fetchPlayerById } = require("../../functions/wotbUtils");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -58,8 +28,8 @@ module.exports = {
         await interaction.deferReply();
 
         const subcommand = interaction.options.getSubcommand();
-        const discordUsername = interaction.options.getString('discordusername') || "N/A";
-        const discordId = interaction.options.getInteger('discordid') || -1;
+        let discordUsername = interaction.options.getString('discordusername') || "N/A";
+        let discordId = interaction.options.getInteger('discordid') || -1;
         const prevNickOpt = interaction.options.getString('previousnicknames');
         const previousNicknames = prevNickOpt ? prevNickOpt.split(",").map(n => n.trim()).filter(n => n) : [];
 
@@ -86,6 +56,14 @@ module.exports = {
         const existing = await PlayerNicknames.findOne({ playerId });
         if (existing) {
             return interaction.editReply("⚠️ That player is already registered.");
+        }
+
+        if(discordUsername === "N/A") {
+            discordUsername = `N/A_${player.account_id}`; // Use the player's current IGN as Discord username if not provided
+        }
+
+        if(discordId === -1) {
+            discordId = `NO_DISCORD_${player.account_id}`; // Use the command invoker's ID if not provided
         }
 
         const newPlayer = new PlayerNicknames({

@@ -7,8 +7,8 @@ const { REST, Routes } = require('discord.js');
 
 process.on('unhandledRejection', console.error);
 
-const token = process.env.TOKEN;
-const clientId = process.env.CLIENTID;
+const token = process.env.TTOKEN;
+const clientId = process.env.TCLIENTID;
 
 const client = new Client({
 	intents: [

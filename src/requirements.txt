@@ -1,0 +1,5 @@
+canvas
+discord.js
+mongoose
+sharp
+node-fetch@2

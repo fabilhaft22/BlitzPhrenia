@@ -48,10 +48,10 @@ module.exports = {
             const buttonHandler = interaction.client.buttons.get(customId); // or from another map, like `buttons.get(customId)`
 
             if (!buttonHandler) {
-                console.error(`❌ No button handler for ID: ${customId}`);
-                console.log('Received interaction:', interaction);
+                // Ignore unknown button interactions like /help pagination buttons
                 return;
             }
+
 
             try {
                 await buttonHandler.execute(interaction);

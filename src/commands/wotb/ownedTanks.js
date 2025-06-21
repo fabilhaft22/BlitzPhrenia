@@ -3,6 +3,8 @@ const fetch = require("node-fetch"); // ensure installed
 const { tanks } = require("../../data/tanks");
 const { formatJSON } = require("../../functions/formatJSON");
 const { LinkedPlayers } = require("../../schemas/players"); // Adjust path if needed
+const { fetchPlayerIdByIgn } = require("../../functions/wotbUtils");
+
 
 
 module.exports = {
@@ -124,20 +126,6 @@ module.exports = {
         splitStringIntoChunks(interaction, ign, finalString, 1950);
     }
 };
-
-async function fetchPlayerIdByIgn(ign) {
-    const response = await fetch(`https://api.wotblitz.eu/wotb/account/list/?application_id=244eb09d25e047353297811743193e00&search=${ign}`)
-
-    const data = await response.json();
-
-
-    if (data.status === "ok" && data.meta.count > 0 && data.data[0].nickname === ign) {
-        return data.data[0].account_id;
-    }
-    else {
-        return null;
-    }
-}
 
 async function splitStringIntoChunks(interaction, ign, str, chunkSize) {
     const lines = str.split("\n");

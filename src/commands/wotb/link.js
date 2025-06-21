@@ -1,6 +1,8 @@
 const { SlashCommandBuilder } = require('discord.js');
 const fetch = require('node-fetch');
 const { LinkedPlayers } = require('../../schemas/players');
+const { fetchPlayerIdByIgn } = require('../../functions/wotbUtils');
+
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -44,15 +46,4 @@ module.exports = {
 
         return interaction.editReply(`✅ Player **${ign}** linked successfully!\n(Previous link, if any, has been replaced)\nUse \`/verify\` to verify your account.`);
     },
-}
-
-async function fetchPlayerIdByIgn(ign) {
-    const response = await fetch(`https://api.wotblitz.eu/wotb/account/list/?application_id=244eb09d25e047353297811743193e00&search=${ign.toLowerCase()}`);
-    const data = await response.json();
-
-    if (data.status === "ok" && data.meta.count > 0 && data.data[0].nickname.toLowerCase() === ign.toLowerCase()) {
-        return data.data[0].account_id;
-    } else {
-        return null;
-    }
 }

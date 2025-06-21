@@ -11,8 +11,8 @@ const playerSchema = new mongoose.Schema({
     currentIgn: { type: String, required: true, unique: true },
     playerId: { type: String, required: true, unique: true },
     previousNicknames: { type: [String], default: [] },
-    discordUsername: { type: String, required: true, unique: true, default: "N/A" },
-    discordId: { type: String, required: true, unique: true, default: -1 },
+    discordUsername: { type: String, required: true, unique: true },
+    discordId: { type: String, required: true, unique: true },
 })
 
 

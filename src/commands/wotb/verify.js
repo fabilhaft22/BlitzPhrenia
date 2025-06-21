@@ -6,7 +6,6 @@ module.exports = {
         .setDescription('Begin verification by logging into Wargaming'),
 
     async execute(interaction) {
-        const discordId = interaction.user.id;
 
         const loginUrl = `https://api.worldoftanks.eu/wot/auth/login/?application_id=244eb09d25e047353297811743193e00&redirect_uri=https://blitzphrenia-server.onrender.com/callback`;
 
