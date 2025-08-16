@@ -1,4 +1,5 @@
 const {SlashCommandBuilder, MessageFlags, EmbedBuilder, Colors} = require("discord.js");
+const { getLogChannel } = require("../../functions/getLogChannel");
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -42,7 +43,7 @@ module.exports = {
         const messages = await interaction.channel.messages.fetch({ limit: 10 });
         const sentMessage = messages.find(msg => msg.author.id === interaction.client.user.id && msg.content === text && (attachment ? msg.attachments.size > 0 : true));
 
-        logChannel = interaction.guild.channels.cache.find(channel => channel.id === process.env.messageLogChannel); 
+        const logChannel = await getLogChannel(interaction.guild, "messageLog"); 
 
         await interaction.reply({
             content: "Message sent successfully!",
