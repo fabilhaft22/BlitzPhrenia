@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const {SlashCommandBuilder, EmbedBuilder, Locale} = require('discord.js');
 const fetch = require('node-fetch');
 
@@ -10,7 +12,7 @@ module.exports = {
         await interaction.deferReply();
 
         try {
-            const response = await fetch(`https://api.wotblitz.eu/wotb/tournaments/list/?application_id=244eb09d25e047353297811743193e00`);
+            const response = await fetch(`https://api.wotblitz.eu/wotb/tournaments/list/?application_id=${process.env.WOTB_APPLICATION_ID}`);
             if (!response.ok) {
                 return interaction.editReply('Failed to fetch tournament data. Please try again later.');
             }

@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
 const { PlayerNicknames } = require("../../schemas/playerNicknames");
 
@@ -81,7 +83,7 @@ async function buildResponse(player, interaction) {
 }
 
 async function addPlayerByIgn(ign, interaction) {
-    const response = await fetch(`https://api.wotblitz.eu/wotb/account/list/?application_id=2c0cd9675ab32362391523973b878cab&search=${ign}`);
+    const response = await fetch(`https://api.wotblitz.eu/wotb/account/list/?application_id=${process.env.WOTB_APPLICATION_ID}&search=${ign}`);
     const data = await response.json();
     let playerId = 0;
 
@@ -109,7 +111,7 @@ async function addPlayerByIgn(ign, interaction) {
 }
 
 async function addPlayerByPlayerId(playerId, interaction) {
-    const response = await fetch(`https://api.wotblitz.eu/wotb/account/info/?application_id=2c0cd9675ab32362391523973b878cab&account_id=${playerId}`);
+    const response = await fetch(`https://api.wotblitz.eu/wotb/account/info/?application_id=${process.env.WOTB_APPLICATION_ID}&account_id=${playerId}`);
     const data = makeJsonDataUsable(await response.json(), playerId);
 
     try {

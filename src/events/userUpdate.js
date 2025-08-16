@@ -1,5 +1,6 @@
 require("dotenv").config();
 const { Events, EmbedBuilder } = require("discord.js");
+const { getLogChannel } = require("../functions/getLogChannel")
 
 async function findLogChannel(guilds, user) {
     for (const OAuth2Guildguild of guilds.values()) { // ✅ Fix: Use .values() to iterate over Collection
@@ -17,7 +18,7 @@ async function findLogChannel(guilds, user) {
 
         if (!guild) continue; // Ensure guild exists
 
-        const channel = guild.channels.cache.get(process.env.memberLogChannel);
+        const channel = await getLogChannel(guild, "memberLog");
         if (!channel || !channel.isTextBased()) continue; // Ensure channel is a valid text channel
 
         return channel; // Return immediately when found
@@ -32,10 +33,7 @@ module.exports = {
         const guilds = await newUser.client.guilds.fetch();
         let logChannel = await findLogChannel(guilds, newUser); // ✅ Ensure this is awaited
 
-        if (!logChannel) {
-            console.log("Log channel for user logging not found");
-            return;
-        }
+        if (!logChannel) return; // no config or channel not found
 
         if (oldUser.username !== newUser.username) {
             const embed = new EmbedBuilder()

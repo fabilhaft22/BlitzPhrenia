@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const { SlashCommandBuilder, ActionRowBuilder, ButtonBuilder, ButtonStyle } = require('discord.js');
 
 module.exports = {
@@ -7,7 +9,7 @@ module.exports = {
 
     async execute(interaction) {
 
-        const loginUrl = `https://api.worldoftanks.eu/wot/auth/login/?application_id=244eb09d25e047353297811743193e00&redirect_uri=https://blitzphrenia-server.onrender.com/callback`;
+        const loginUrl = `https://api.worldoftanks.eu/wot/auth/login/?application_id=${process.env.WOTB_APPLICATION_ID}&redirect_uri=https://blitzphrenia-server.onrender.com/callback`;
 
 
         const row = new ActionRowBuilder().addComponents(

@@ -1,16 +1,14 @@
 const { Events, AuditLogEvent, EmbedBuilder } = require("discord.js");
+const { getLogChannel } = require("../functions/getLogChannel")
 
 module.exports = {
     name: Events.GuildMemberRemove,
     async execute(member) {
-        const logChannel = member.guild.channels.cache.get(process.env.memberLogChannel);
         const guild = member.guild;
-        const notificationChannel = member.guild.channels.cache.get(process.env.welcomeChannel);  // Channel for notifying
+        const logChannel = await getLogChannel(guild, "memberLog"); // Log channel for server events
+        const notificationChannel = await getLogChannel(member.guild, "welcomeChannel")  // Channel for notifying
 
-        if (!logChannel) { 
-            console.log("failed to find log channel in guildMemberRemove.js(line 6)"); 
-            return; 
-        }
+        
 
         // Send a notification to a specific channel
         if (notificationChannel) {
@@ -19,6 +17,9 @@ module.exports = {
             console.log("Failed to find notification channel");
         }
 
+
+        if (!logChannel) return
+        
         const roles = member.roles.cache
             .filter(role => role.id !== member.guild.id) // Exclude @everyone role
             .map(role => `<@&${role.id}>`) // Format as mention

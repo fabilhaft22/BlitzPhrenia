@@ -1,9 +1,11 @@
 const { Events, EmbedBuilder } = require("discord.js")
+const { getLogChannel } = require("../functions/getLogChannel")
 
 module.exports = {
     name: Events.ChannelCreate,
     async execute(channel) {
-        const logChannel = channel.guild.channels.cache.get(process.env.serverLogChannel)
+        const logChannel = await getLogChannel(channel.guild, "serverLog");
+        if (!logChannel) return; // no config or channel not found
 
         let category;
 

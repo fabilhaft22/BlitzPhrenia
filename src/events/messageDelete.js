@@ -1,5 +1,6 @@
 require("dotenv").config();
 const { Events, EmbedBuilder } = require("discord.js");
+const { getLogChannel } = require("../functions/getLogChannel")
 
 module.exports = {
     name: Events.MessageDelete,
@@ -11,12 +12,9 @@ module.exports = {
             return;
         }
 
-        const logChannel = message.guild.channels.cache.get(process.env.messageLogChannel);
+        const logChannel = await getLogChannel(message.guild, "messageLog");
 
-        if (!logChannel) {
-            console.log("Failed to find log channel (messageDelete.js line 7)");
-            return;
-        }
+        if (!logChannel) return
 
         const embed = new EmbedBuilder()
             .setTitle(`Message deleted in #${message.channel.name}`)

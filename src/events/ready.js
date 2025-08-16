@@ -22,10 +22,13 @@ const setActivity = async (c) => {
         type: ActivityType.Custom
     };
 
+    const totalMembers = c.guilds.cache.reduce((sum, guild) => sum + guild.memberCount, 0);
+
     const activity2 = {
-        name: `stalking ${c.guilds.cache.get('1358895730110238933')?.memberCount || 'some'} server members.`,
+        name: `stalking ${totalMembers} server members.`,
         type: ActivityType.Custom
     };
+
 
     let linkedAccounts = 0;
     let nicknameAccounts = 0;

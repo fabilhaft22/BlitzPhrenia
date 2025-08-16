@@ -1,13 +1,14 @@
 require("dotenv").config()
 const { Events, EmbedBuilder, Collection } = require("discord.js")
+const { getLogChannel } = require("../functions/getLogChannel")
 
 module.exports = {
     name: Events.GuildMemberUpdate,
     async execute(oldMember, newMember) {
 
-        const logChannel = newMember.guild.channels.cache.get(process.env.memberLogChannel)
+        const logChannel = await getLogChannel(newMember.guild, "memberLog"); // Log channel for member updates
 
-        if(!logChannel) {console.log("failed to find logChannel (guildMemberUpdate.js line 8)"); return}
+        if(!logChannel) return
 
         if (oldMember.nickname !== newMember.nickname) {
             const embed = new EmbedBuilder()

@@ -1,11 +1,12 @@
 const { Events, EmbedBuilder } = require("discord.js")
+const { getLogChannel } = require("../functions/getLogChannel")
 
 module.exports = {
     name: Events.GuildRoleDelete,
     async execute(role) {
-        const logChannel = role.guild.channels.cache.get(process.env.serverLogChannel)
+        const logChannel = await getLogChannel(role.guild, "serverLog");
 
-        if(!logChannel) {console.log("Failed to find log channel (roleDelete.js line 6)"); return}
+        if(!logChannel) return
 
         const embed = new EmbedBuilder()
             .setTitle(`The role "${role.name} was deleted"`)

@@ -1,13 +1,9 @@
+require('dotenv').config();
+
 const { SlashCommandBuilder } = require("discord.js");
 const fetch = require("node-fetch"); // Make sure this is installed
 const { PlayerNicknames } = require("../../schemas/playerNicknames"); // Adjust path if needed
 const { fetchPlayerInfo } = require("../../functions/wotbUtils");
-
-
-const API_URL = "https://api.wotblitz.eu/wotb/account/info/";
-const APPLICATION_ID = "2c0cd9675ab32362391523973b878cab";
-
-
 
 module.exports = {
     data: new SlashCommandBuilder()

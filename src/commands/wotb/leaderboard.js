@@ -5,7 +5,7 @@ const { calculateBP } = require("../../functions/calculateBP");
 module.exports = {
     data: new SlashCommandBuilder()
         .setName("wotb-leaderboard")
-        .setDescription("Leaderboard for WOTB players related to this server."),
+        .setDescription("Leaderboard for WOTB players stored in my database."),
 
     async execute(interaction) {
         await interaction.deferReply();
@@ -49,7 +49,7 @@ module.exports = {
 
 
         await interaction.editReply({
-            content: `**Top 25 best players of the apes (with my custom BP-Rating, now piss off)**\n\n${leaderboard}`
+            content: `**Top 25 best players of my database(with my custom BP-Rating, now piss off)**\n\n${leaderboard}`
         });
     }
 };

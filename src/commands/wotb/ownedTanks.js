@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const { SlashCommandBuilder } = require("discord.js");
 const fetch = require("node-fetch"); // ensure installed
 const { tanks } = require("../../data/tanks");
@@ -55,7 +57,7 @@ module.exports = {
             }
         }
 
-        let statsUrl = `https://api.wotblitz.eu/wotb/tanks/stats/?application_id=244eb09d25e047353297811743193e00&account_id=${playerId}`;
+        let statsUrl = `https://api.wotblitz.eu/wotb/tanks/stats/?application_id=${process.env.WOTB_APPLICATION_ID}&account_id=${playerId}`;
         if (accessToken) {
             statsUrl += `&access_token=${accessToken}`;
         }

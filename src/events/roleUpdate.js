@@ -1,4 +1,5 @@
 const { Events, EmbedBuilder } = require("discord.js");
+const { getLogChannel } = require("../functions/getLogChannel");
 
 const pendingUpdates = new Map();
 
@@ -6,9 +7,9 @@ module.exports = {
     name: Events.GuildRoleUpdate,
     async execute(oldRole, newRole) {
 
-        const logChannel = newRole.guild.channels.cache.get(process.env.serverLogChannel);
+        const logChannel = await getLogChannel(newRole.guild, "serverLog");
 
-        if(!logChannel) {console.log("Failed to find log channel (roleUpdate.js line 9)"); return}
+        if(!logChannel) return; // no config or channel not found
 
         const roleId = newRole.id;
         let changes = [];

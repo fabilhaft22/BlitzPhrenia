@@ -1,12 +1,13 @@
 const { Events, EmbedBuilder } = require("discord.js")
+const { getLogChannel } = require("../functions/getLogChannel")
 
 module.exports = {
     name: Events.VoiceStateUpdate,
     async execute(oldState, newState) {
 
-        const logChannel = newState.guild.channels.cache.get(process.env.voiceLogChannel)
+        const logChannel = await getLogChannel(newState.guild, "voiceLog");
 
-        if(!logChannel) {console.log("Failed to find log channel (voiceStateUpdate.js line 7)"); return}
+        if(!logChannel) return; // no config or channel not found
 
         const member = newState.guild.members.cache.get(newState.id)
         let channel;
