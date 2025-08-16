@@ -22,12 +22,26 @@ const setActivity = async (c) => {
         type: ActivityType.Custom
     };
 
-    const totalMembers = c.guilds.cache.reduce((sum, guild) => sum + guild.memberCount, 0);
+    const uniqueUserIds = new Set();
+
+    // Loop through all guilds
+    c.guilds.cache.forEach(guild => {
+        // Add all non-bot members' IDs to the set
+        guild.members.cache.forEach(member => {
+            if (!member.user.bot) {
+                uniqueUserIds.add(member.id);
+            }
+        });
+    });
+
+    // The total number of unique real users:
+    const totalMembers = uniqueUserIds.size;
 
     const activity2 = {
-        name: `stalking ${totalMembers} server members.`,
+        name: `stalking ${totalMembers} members across ${c.guilds.cache.size} servers.`,
         type: ActivityType.Custom
     };
+
 
 
     let linkedAccounts = 0;
