@@ -1229,6 +1229,11 @@ const tanks = Object.freeze({
         "nation": "uk",
         "tier": 2
     },
+    "8289": {
+        "name": "Type 95 Ji-Ro",
+        "nation": "japan",
+        "tier": 8
+    },
     "8305": {
         "name": "Titan H-Nd",
         "nation": "other",
@@ -2214,6 +2219,11 @@ const tanks = Object.freeze({
         "nation": "other",
         "tier": 8
     },
+    "18305": {
+        "name": "SPD 40 Zadymka",
+        "nation": "european",
+        "tier": 5
+    },
     "18433": {
         "name": "LTTB",
         "nation": "ussr",
@@ -2239,6 +2249,11 @@ const tanks = Object.freeze({
         "nation": "other",
         "tier": 9
     },
+    "18561": {
+        "name": "SDP 44 Burza",
+        "nation": "european",
+        "tier": 6
+    },
     "18689": {
         "name": "T-70/57",
         "nation": "ussr",
@@ -2258,6 +2273,11 @@ const tanks = Object.freeze({
         "name": "mau5Tank",
         "nation": "other",
         "tier": 9
+    },
+    "18817": {
+        "name": "SDP 57 Gowika",
+        "nation": "european",
+        "tier": 7
     },
     "18945": {
         "name": "ISU-130",
@@ -2289,6 +2309,11 @@ const tanks = Object.freeze({
         "nation": "other",
         "tier": 9
     },
+    "19073": {
+        "name": "SDP 58 Kilana",
+        "nation": "european",
+        "tier": 8
+    },
     "19217": {
         "name": "Grille 15",
         "nation": "germany",
@@ -2314,6 +2339,11 @@ const tanks = Object.freeze({
         "nation": "other",
         "tier": 8
     },
+    "19329": {
+        "name": "SDP 60 Gonkiewicza",
+        "nation": "european",
+        "tier": 9
+    },
     "19473": {
         "name": "Krupp-38(D)",
         "nation": "germany",
@@ -2332,6 +2362,16 @@ const tanks = Object.freeze({
     "19537": {
         "name": "Vickers Light 105",
         "nation": "uk",
+        "tier": 10
+    },
+    "19569": {
+        "name": "AC-17P Sterope",
+        "nation": "other",
+        "tier": 9
+    },
+    "19585": {
+        "name": "NC 70 Błyskawica",
+        "nation": "european",
         "tier": 10
     },
     "19713": {
@@ -2358,6 +2398,11 @@ const tanks = Object.freeze({
         "name": "Vickers Cruiser",
         "nation": "uk",
         "tier": 9
+    },
+    "19841": {
+        "name": "SPD wz 66 Grom",
+        "nation": "european",
+        "tier": 8
     },
     "19969": {
         "name": "T-22 medium",
@@ -2387,6 +2432,11 @@ const tanks = Object.freeze({
     "20257": {
         "name": "XM551 Sheridan",
         "nation": "usa",
+        "tier": 10
+    },
+    "20097": {
+        "name": "Felice",
+        "nation": "european",
         "tier": 10
     },
     "20289": {
@@ -2759,6 +2809,11 @@ const tanks = Object.freeze({
         "nation": "usa",
         "tier": 8
     },
+    "24913": {
+        "name": "Nemesis",
+        "nation": "usa",
+        "tier": 8
+    },
     "25089": {
         "name": "Object 752",
         "nation": "ussr",
@@ -2889,6 +2944,11 @@ const tanks = Object.freeze({
         "nation": "usa",
         "tier": 6
     },
+    "27393": {
+        "name": "Object Kust",
+        "nation": "ussr",
+        "tier": 8
+    },
     "27409": {
         "name": "Projekt Kpz. 07P(E)",
         "nation": "germany",
@@ -2968,6 +3028,11 @@ const tanks = Object.freeze({
         "name": "MBT-B",
         "nation": "usa",
         "tier": 9
+    },
+    "29457": {
+        "name": "VK 19.02“闪送宝",
+        "nation": "germany",
+        "tier": 8
     },
     "29473": {
         "name": "ATAC",

@@ -10,7 +10,7 @@ async function calculateBP(player) {
     const weightSurvival = battleWeight * 0.15;
 
     // Reduced penalty: max 20% penalty for lowest battles, less harsh curve
-    const penalty = (1 - battleWeight) ** 1.5 * 0.2;
+    const penalty = (1 - battleWeight) ** 1.5 * 0.3;
 
     const rating = (
         winrateNorm * weightWin +
@@ -22,7 +22,7 @@ async function calculateBP(player) {
 }
 
 async function getBattleWeight(battles) {
-    return Math.min(1, Math.log10(battles + 1) / Math.log10(5000));
+    return Math.min(1, Math.log10(battles + 1) / Math.log10(10000));
 }
 
 
