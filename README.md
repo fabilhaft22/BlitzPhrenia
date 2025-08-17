@@ -48,7 +48,8 @@ npm install canvas discord.js mongoose sharp node-fetch@2 dotenv
 
   * Detect name changes → `/checknamechanges`
   * View previous nicknames → `/findplayer`
-  * Generate a player leaderboard of all stored accounts
+  * Check Tank statistics → `/tank-characteristics`
+  * Generate a player leaderboard of all stored accounts → `/wotb-leaderboard`
 * 🏆 Retrieve all current and upcoming tournaments → `/tournament`
 * 📈 Custom **BP rating system** for more accurate player evaluation
 

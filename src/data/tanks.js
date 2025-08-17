@@ -3436,6 +3436,15 @@ const tanks = Object.freeze({
     }
 })
 
+const shellMapping = Object.freeze({
+    "ARMOR_PIERCING": "AP",
+    "ARMOR_PIERCING_CR": "APCR",
+    "HOLLOW_CHARGE": "HEAT",
+    "HIGH_EXPLOSIVE": "HE",
+
+})
+
 module.exports = {
-    tanks
+    tanks,
+    shellMapping
 }

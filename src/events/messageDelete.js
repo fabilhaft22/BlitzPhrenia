@@ -16,6 +16,10 @@ module.exports = {
 
         if (!logChannel) return
 
+        if(message.content === "" && message.attachments.size === 0) {
+            return console.log("Discord API bug: MessageDelete event triggered without content or attachments.");
+        }
+
         const embed = new EmbedBuilder()
             .setTitle(`Message deleted in #${message.channel.name}`)
             .setAuthor({
