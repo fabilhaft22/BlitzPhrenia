@@ -44,8 +44,8 @@ module.exports = {
 
         const allDetails = (await fetchTankDetails(tankId)).data[tankId];
 
-        if(allDetails === null) {
-            return interaction.editReply({content: "The tank " + "``" + `${tank.name} (Tier ${tank.tier}, ${tank.nation})` + "``" + ` is not in the official Wargaming Tankopedia (encyclopedia), so I can´t provide any info on this tank.`})
+        if (allDetails === null) {
+            return interaction.editReply({ content: "The tank " + "``" + `${tank.name} (Tier ${tank.tier}, ${tank.nation})` + "``" + ` is not in the official Wargaming Tankopedia (encyclopedia), so I can´t provide any info on this tank.` })
         }
 
         const topModules = await getTopModulesFromVehicle(allDetails);
@@ -73,13 +73,13 @@ module.exports = {
             Shell_capacity: details.gun.clip_capacity,
             Average_Penetration: [
                 [shellMapping[details.shells[0].type], details.shells[0].penetration + "mm"],
-                [shellMapping[details.shells[1].type], details.shells[1].penetration + "mm"],
-                [shellMapping[details.shells[2].type], details.shells[2].penetration + "mm"]
+                [shellMapping[details.shells[1]?.type] || null, details.shells[1]?.penetration + "mm" || null],
+                [shellMapping[details.shells[2]?.type] || null, details.shells[2]?.penetration + "mm" || null]
             ],
             Average_Damage: [
                 [shellMapping[details.shells[0].type], details.shells[0].damage],
-                [shellMapping[details.shells[1].type], details.shells[1].damage],
-                [shellMapping[details.shells[2].type], details.shells[2].damage]
+                [shellMapping[details.shells[1]?.type] || null, details.shells[1]?.damage || null],
+                [shellMapping[details.shells[2]?.type] || null, details.shells[2]?.damage || null]
             ],
             Aiming_Time: details.gun.aim_time.toFixed(1) + "s",
             Dispersion: details.gun.dispersion.toFixed(2) + "m",
@@ -191,8 +191,10 @@ async function generateTankCanvas(tankName, backgroundPath, survivability, firep
                     stat.value.forEach((val, i) => {
                         if (!((val[0] === "Turret turning left" && val[1] === 180) || val[0] === "Turret turning right" && val[1] === 180)) {
                             const label = i === 0 ? `${val[0]}` : i === 1 ? `${val[0]}` : `${val[0]}`;
-                            ctx.fillText(`- ${label}: ${val[1]}`, startX + 40, statY);
-                            statY += lineHeight;
+                            if (val[0]) {
+                                ctx.fillText(`- ${label}: ${val[1]}`, startX + 40, statY);
+                                statY += lineHeight;
+                            }
                         }
                     });
                 }
